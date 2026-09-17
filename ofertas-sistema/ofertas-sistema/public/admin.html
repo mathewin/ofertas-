@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel administrativo - Ofertas</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <section id="login-screen" class="login-screen">
+    <form id="login-form" class="login-card">
+      <div class="login-logo">O</div>
+      <h1>Painel de Ofertas</h1>
+      <p>Informe o token administrativo para continuar.</p>
+      <input id="token-input" type="password" placeholder="Token administrativo" autocomplete="current-password" required />
+      <button type="submit">Entrar</button>
+      <small id="login-error" class="login-error" hidden>Token invalido.</small>
+    </form>
+  </section>
+
+  <div id="app" class="layout" hidden>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-logo">O</span>
+        <div>
+          <strong>Ofertas</strong>
+          <small>painel administrativo</small>
+        </div>
+      </div>
+      <nav id="nav">
+        <button class="nav-item active" data-view="dashboard">Dashboard</button>
+        <button class="nav-item" data-view="offers">Ofertas</button>
+        <button class="nav-item" data-view="sources">Fontes</button>
+        <button class="nav-item" data-view="categories">Categorias</button>
+        <button class="nav-item" data-view="settings">Configuracoes</button>
+        <button class="nav-item" data-view="events">Eventos</button>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" rel="noopener">Ver site</a>
+        <button id="logout" type="button">Sair</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <h1 id="view-title">Dashboard</h1>
+        <div class="topbar-actions">
+          <span id="scheduler-info" class="scheduler-info"></span>
+          <button id="run-now" class="primary" type="button">Capturar agora</button>
+        </div>
+      </header>
+
+      <div id="toast" class="toast" hidden></div>
+
+      <section class="view" id="view-dashboard">
+        <div class="cards" id="dash-cards"></div>
+        <div class="grid-2">
+          <div class="panel">
+            <h2>Status das fontes</h2>
+            <div id="dash-sources" class="source-list"></div>
+          </div>
+          <div class="panel">
+            <h2>Ofertas por categoria</h2>
+            <div id="dash-categories" class="bar-list"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Ultimos eventos</h2>
+          <div id="dash-events" class="event-list"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-offers" hidden>
+        <div class="toolbar">
+          <input id="offers-search" type="search" placeholder="Buscar por titulo ou loja" />
+          <select id="offers-status">
+            <option value="all">Todos os status</option>
+            <option value="active">Ativas</option>
+            <option value="pending">Pendentes</option>
+            <option value="hidden">Ocultas</option>
+            <option value="expired">Expiradas</option>
+            <option value="archived">Arquivadas</option>
+          </select>
+          <select id="offers-source">
+            <option value="all">Todas as fontes</option>
+            <option value="shopee">Shopee</option>
+            <option value="tiktok">TikTok Shop</option>
+            <option value="demo">Demonstracao</option>
+          </select>
+          <select id="offers-sort">
+            <option value="recent">Recentes</option>
+            <option value="discount">Maior desconto</option>
+            <option value="price">Menor preco</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Preco</th>
+                <th>Desc.</th>
+                <th>Loja</th>
+                <th>Categoria</th>
+                <th>Fonte</th>
+                <th>Status</th>
+                <th>Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="offers-body"></tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <button id="offers-prev" type="button">Anterior</button>
+          <span id="offers-page">1</span>
+          <button id="offers-next" type="button">Proxima</button>
+        </div>
+      </section>
+
+      <section class="view" id="view-sources" hidden>
+        <div class="source-grid" id="sources-grid"></div>
+        <div class="panel">
+          <h2>Como funciona</h2>
+          <p class="muted">
+            Ative apenas fontes com APIs oficiais e autorizadas. O sistema nao burla CAPTCHA,
+            login ou protecoes das plataformas. Sem credenciais, a fonte fica desativada e
+            registra erro no log.
+          </p>
+        </div>
+      </section>
+
+      <section class="view" id="view-categories" hidden>
+        <div class="grid-2">
+          <div class="panel">
+            <h2>Categorias</h2>
+            <div id="categories-list" class="category-list"></div>
+          </div>
+          <div class="panel">
+            <h2>Nova / editar categoria</h2>
+            <form id="category-form" class="form">
+              <input type="hidden" name="id" />
+              <label>Nome<input name="name" required /></label>
+              <label>Palavras-chave (separadas por virgula)<input name="keywords" /></label>
+              <label>Ordem<input name="sort_order" type="number" value="0" /></label>
+              <label class="checkbox"><input name="enabled" type="checkbox" checked /> Ativa</label>
+              <button type="submit">Salvar categoria</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-settings" hidden>
+        <form id="settings-form" class="panel form form-grid"></form>
+      </section>
+
+      <section class="view" id="view-events" hidden>
+        <div class="panel">
+          <h2>Log de eventos</h2>
+          <div id="events-list" class="event-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/admin.js" type="module"></script>
+</body>
+</html>

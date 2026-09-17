@@ -1,0 +1,21 @@
+{
+  "name": "ofertas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de rastreamento e divulgacao automatica de ofertas (Shopee / TikTok Shop) com site estilo WhatsApp e painel administrativo.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node --no-warnings src/server.js",
+    "dev": "node --no-warnings --watch src/server.js",
+    "track": "node --no-warnings src/cli/track.js",
+    "migrate": "node --no-warnings src/cli/migrate.js",
+    "seed": "node --no-warnings src/cli/seed.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.13.1"
+  }
+}
